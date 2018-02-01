@@ -7,7 +7,6 @@ function onKeyPress(event){
     var keyCode = event.keyCode;
     var moveDirection;
     switch (keyCode) {
-        alert(keyCode);
         case left:
             moveDirection = [-1,0];
             break;
@@ -23,9 +22,10 @@ function onKeyPress(event){
     }
     if (moveDirection) {
         serpent.move(moveDirection);
-        //drawer.draw(serpent.body);
+        drawer.draw(serpent.body);
     }
 }
 serpent.init();
 drawer.draw(serpent.body);
+// переделеть на событие отпускания клавиши
 addEventListener("keypress", onKeyPress);

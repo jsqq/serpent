@@ -3,16 +3,17 @@
  */
 'use strict';
 
-var serpent = new Object();
+var serpent = {};
 serpent.alive = true;
-serpent.body = new Array();
+serpent.body = [];
 serpent.grow = function () {
     // grow func there
 }
 serpent.move = function (md) {
     // move func there
-    alert(md);
+    //alert(md);
 }
 serpent.init = function () {
-    this.body[this.body.length] = field[xStartCell, yStartCell];
+    field[xStartCell][yStartCell].color = serpentColor;
+    this.body[0] = field[xStartCell][yStartCell];
 }

@@ -5,8 +5,10 @@
 
 var widthOfCell = 50;
 var heightOfCell = 50;
-var xCellCount = 10;
-var yCellCount = 10;
+var xdelta = 1;
+var ydelta = 1;
+var xCellCount = 6;
+var yCellCount = 6;
 var emptyColor = "green";
 var serpentColor = "red";
 var styleOfCanvas = "border:2px solid #000000;";

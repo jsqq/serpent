@@ -3,10 +3,8 @@
  */
 'use strict';
 
-function Cell(xOfCell, yOfCell, widthOfCell, heigthOfCell, colorOfCell) {
+function Cell(xOfCell, yOfCell, colorOfCell) {
     this.x = xOfCell;
     this.y = yOfCell;
-    this.widthofcell = widthOfCell;
-    this.heigthofcell = heigthOfCell;
     this.color = colorOfCell;
 }
