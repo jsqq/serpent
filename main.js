@@ -4,6 +4,16 @@
 'use strict';
 
 function onKeyPress(event){
+    if (!serpent.alive) {
+        if (confirm("Заново?")) {
+            serpent.init();
+            drawer.drawfield(field);
+            drawer.drawserpent(serpent);
+            return;
+        }
+    }
+
+
     var keyCode = event.keyCode;
     var moveDirection;
     switch (keyCode) {
@@ -22,10 +32,12 @@ function onKeyPress(event){
     }
     if (moveDirection) {
         serpent.move(moveDirection);
-        drawer.draw(serpent.body);
+        drawer.drawserpent(serpent);
     }
 }
+field.init();
 serpent.init();
-drawer.draw(serpent.body);
+drawer.drawfield(field);
+drawer.drawserpent(serpent);
 // переделеть на событие отпускания клавиши
 addEventListener("keypress", onKeyPress);

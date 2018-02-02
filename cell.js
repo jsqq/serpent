@@ -3,8 +3,7 @@
  */
 'use strict';
 
-function Cell(xOfCell, yOfCell, colorOfCell) {
+function Cell(xOfCell, yOfCell) {
     this.x = xOfCell;
     this.y = yOfCell;
-    this.color = colorOfCell;
 }
