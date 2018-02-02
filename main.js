@@ -3,19 +3,15 @@
  */
 'use strict';
 
+var message;
+
+var moveDirection;
 function onKeyPress(event){
     if (!serpent.alive) {
-        if (confirm("Заново?")) {
-            serpent.init();
-            drawer.drawfield(field);
-            drawer.drawserpent(serpent);
-            return;
-        }
+        return;
     }
 
-
     var keyCode = event.keyCode;
-    var moveDirection;
     switch (keyCode) {
         case left:
             moveDirection = [-1,0];
@@ -31,13 +27,28 @@ function onKeyPress(event){
             break;
     }
     if (moveDirection) {
-        serpent.move(moveDirection);
-        drawer.drawserpent(serpent);
+        move();
+    }
+}
+
+function move() {
+    if (serpent.alive) {
+        if (moveDirection!==undefined) {
+            serpent.move(moveDirection);
+            canvas.drawserpent(serpent);
+        }
+    } else {
+        alert(message);
+        moveDirection = undefined;
+        serpent.init();
+        canvas.drawfield(field);
+        canvas.drawserpent(serpent);
+        return;
     }
 }
 field.init();
 serpent.init();
-drawer.drawfield(field);
-drawer.drawserpent(serpent);
-// переделеть на событие отпускания клавиши
+canvas.drawfield(field);
+canvas.drawserpent(serpent);
 addEventListener("keypress", onKeyPress);
+setInterval( move, delay );
