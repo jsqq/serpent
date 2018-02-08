@@ -46,6 +46,7 @@ function move() {
         return;
     }
 }
+var field = new myField(1,xCellAmt,yCellAmt);
 field.init();
 serpent.init();
 canvas.drawfield(field);
