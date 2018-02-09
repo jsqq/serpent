@@ -3,10 +3,9 @@
  */
 'use strict';
 
-var Serpents = function (id, length, color) {
+var Serpents = function (id, length) {
     this.id = id;
     this.length = length;
-    this.color = color;
     this.alive = false;
     this.body = [];
     this.tail = [];
@@ -14,6 +13,7 @@ var Serpents = function (id, length, color) {
 
 Serpents.prototype.init = function(field, xStart, yStart) {
     this.alive = true;
+    this.message = "";
     this.field = field;
     this.body.splice(0,this.body.length);
     this.body.splice(0,0,field.body[xStart][yStart]);
@@ -21,18 +21,20 @@ Serpents.prototype.init = function(field, xStart, yStart) {
 }
 
 Serpents.prototype.grow = function(cell) {
-    //alert(cell);
     this.body.splice(0, 0, cell);
 }
 
 Serpents.prototype.leave = function() {
-    //alert(this.body.length+" $$ "+this.length);
+
     if (this.body.length > this.length) {
         this.tail.splice(0, 1, this.body[this.body.length-1]);
         this.body.splice(this.body.length-1,1);
     }
-    //alert(this.body[this.body.length-1]);
-    //alert(this.tail[0].x+" % "+this.tail[0].y);
+}
+
+Serpents.prototype.kill = function(message) {
+    this.alive = false;
+    this.message = message;
 }
 
 Serpents.prototype.move = function(md) {
@@ -41,14 +43,12 @@ Serpents.prototype.move = function(md) {
         var moveToX = serpentHead.x+md[0];
         var moveToY = serpentHead.y+md[1];
         if ((moveToX < 0)||(moveToX == this.field.xDimension)||(moveToY < 0)||(moveToY == this.field.yDimension)) {
-            message = "Serpent is over the field!";
-            this.alive = false;
+            this.kill("Serpent is over the field!");
         } else {
             var cellOnTheWay = this.field.body[moveToX][moveToY];
             if (this.body.indexOf(cellOnTheWay)>0) {
                 if (cellOnTheWay !== this.body[this.body.length-1]) {
-                    message = "Serpent eat himself!";
-                    this.alive = false;
+                    this.kill("Serpent eat himself!");
                 }
             }
         }

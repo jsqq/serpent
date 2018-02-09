@@ -3,8 +3,6 @@
  */
 'use strict';
 
-var message;
-
 var moveDirection;
 function onKeyDown(event){
     moveDirection = undefined;
@@ -28,7 +26,7 @@ function onKeyDown(event){
 
 function moveSerpent0(){
     if (!mySerpent0.alive) {
-        alert(message);
+        alert(mySerpent0.message);
         mySerpent0.init(myField0, xStartCell, yStartCell);
         myCanvas0.draw(myField0);
         myCanvas0.draw(mySerpent0);
@@ -41,18 +39,31 @@ function moveSerpent0(){
     }
 }
 
-var myField0 = new Fields(0, xCellAmt, yCellAmt, colorOfField);
+var myField0 = new Fields(0, xCellAmt, yCellAmt, widthOfCell, heightOfCell);
 myField0.init();
 
-var mySerpent0 = new Serpents(0, startLengthOfSerpent, colorOfSerpent);
+var mySerpent0 = new Serpents(0, startLengthOfSerpent);
 mySerpent0.init(myField0, xStartCell, yStartCell);
 
-var myCanvas0 = new Canvases(0, xCellAmt, yCellAmt, widthOfCell, heightOfCell, styleOfCanvas, colorOfField, colorOfSerpent);
+var myCanvas0 = new Canvases(0, myField0, styleOfCanvas, colorOfField, colorOfSerpent);
 myCanvas0.draw(myCanvas0);
 
 myCanvas0.draw(myField0);
 myCanvas0.draw(mySerpent0);
 
-//window.addEventListener("keypress", onKeyPress, false);
+// var myField1 = new Fields(1, xCellAmt+1, yCellAmt+1, widthOfCell+5, heightOfCell-5);
+// myField1.init();
+//
+// var mySerpent1 = new Serpents(1, startLengthOfSerpent+1);
+// mySerpent1.init(myField1, xStartCell-2, yStartCell+2);
+//
+// var myCanvas1 = new Canvases(1, myField1, styleOfCanvas, colorOfField, colorOfSerpent);
+// myCanvas1.draw(myCanvas1);
+//
+// myCanvas1.draw(myField1);
+// myCanvas1.draw(mySerpent1);
+
+
+//window.addEventListener("keypress", onKeyPress, false); // keypress not work on Chrome
 window.addEventListener("keydown", onKeyDown, false);
 window.setInterval(moveSerpent0, delay );

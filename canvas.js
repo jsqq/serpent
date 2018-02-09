@@ -2,24 +2,23 @@
  * Created by timoshenko.d on 01.02.2018.
  */
 'use strict';
-var Canvases = function (id, xDimension, yDimension, width, height, style, fieldColor, serpentColor) {
-
-    var myLabel = document.getElementById('canvases');
-    var createdCanvas = document.createElement('canvas');
-    createdCanvas.id = 'myCanvas'+id;
-    createdCanvas.width = width*xDimension;
-    createdCanvas.height = height*yDimension;
-    createdCanvas.style = style;
-    myLabel.appendChild(createdCanvas);
+var Canvases = function (id, field, style, fieldColor, serpentColor) {
 
     this.id = id;
-    this.xDimension = xDimension;
-    this.yDimension = yDimension;
-    this.width = width;
-    this.height = height;
+    this.xDimension = field.xDimension;
+    this.yDimension = field.yDimension;
+    this.width = field.width;
+    this.height = field.height;
     this.style = style;
     this.fieldColor = fieldColor;
     this.serpentColor = serpentColor;
+    var myLabel = document.getElementById('canvases');
+    var createdCanvas = document.createElement('canvas');
+    createdCanvas.id = 'myCanvas'+id;
+    createdCanvas.width = this.width*this.xDimension;
+    createdCanvas.height = this.height*this.yDimension;
+    createdCanvas.style = this.style;
+    myLabel.appendChild(createdCanvas);
     this.body = createdCanvas;
 }
 
@@ -45,9 +44,9 @@ Canvases.prototype.draw = function(objectToDraw) {
     }
 
     var fieldGradient = context2D.createLinearGradient(0, 0, widthOfCell, heightOfCell);
-    fieldGradient.addColorStop(0,objectToDraw.color);
+    fieldGradient.addColorStop(0,this.fieldColor);
     var serpentGradient = context2D.createLinearGradient(0, 0, widthOfCell, heightOfCell);
-    serpentGradient.addColorStop(1,objectToDraw.color);
+    serpentGradient.addColorStop(1,this.serpentColor);
 
     if (objectToDraw instanceof Fields) {
         context2D.fillStyle = fieldGradient;
