@@ -2,64 +2,84 @@
  * Created by timoshenko.d on 01.02.2018.
  */
 'use strict';
+var Canvases = function (id, xDimension, yDimension, width, height, style, fieldColor, serpentColor) {
 
-var canvasElement = document.getElementById('myCanvas');
-canvasElement.width = widthOfCell*xCellAmt;
-canvasElement.height = heightOfCell*yCellAmt;
-canvasElement.style = styleOfCanvas;
+    var myLabel = document.getElementById('canvases');
+    var createdCanvas = document.createElement('canvas');
+    createdCanvas.id = 'myCanvas'+id;
+    createdCanvas.width = width*xDimension;
+    createdCanvas.height = height*yDimension;
+    createdCanvas.style = style;
+    myLabel.appendChild(createdCanvas);
 
-var ctx = canvasElement.getContext("2d");
-
-var serpentGradient = ctx.createLinearGradient(0,0,200,0);
-serpentGradient.addColorStop(0,serpentColor);
-var emptyGradient = ctx.createLinearGradient(0,0,200,0);
-emptyGradient.addColorStop(1,emptyColor);
-
-
-for (var i = 1; i < xCellAmt; i++) {
-    ctx.moveTo(i*widthOfCell, 0);
-    ctx.lineTo(i*widthOfCell, heightOfCell*yCellAmt);
-    ctx.stroke();
+    this.id = id;
+    this.xDimension = xDimension;
+    this.yDimension = yDimension;
+    this.width = width;
+    this.height = height;
+    this.style = style;
+    this.fieldColor = fieldColor;
+    this.serpentColor = serpentColor;
+    this.body = createdCanvas;
 }
 
-for (var j = 1; j < yCellAmt; j++) {
-    ctx.moveTo(0, j*heightOfCell);
-    ctx.lineTo(widthOfCell*xCellAmt, j*heightOfCell);
-    ctx.stroke();
-}
 
-var canvas = {};
-canvas.drawserpent = function (serpentToDraw) {
-    for (var i = 0; i < serpentToDraw.body.length; i++) {
-        ctx.fillStyle = serpentGradient;
-        ctx.fillRect(
-            serpentToDraw.body[i].x*widthOfCell+xdelta,
-            serpentToDraw.body[i].y*heightOfCell+ydelta,
-            widthOfCell-xdelta,
-            heightOfCell-ydelta);
+Canvases.prototype.draw = function(objectToDraw) {
+    if (!objectToDraw) {
+        return;
     }
-    if (serpentToDraw.tail[0]!==undefined) {
-        if (serpentToDraw.tail[0]!==serpentToDraw.body[0]) {
-            ctx.fillStyle = emptyGradient;
-            ctx.fillRect(
-                serpentToDraw.tail[0].x*widthOfCell+xdelta,
-                serpentToDraw.tail[0].y*heightOfCell+ydelta,
+    var context2D = this.body.getContext('2d');
+
+    if (objectToDraw instanceof Canvases) {
+        for (var i = 0; i < this.xDimension+1; i++) {
+            context2D.moveTo(i*this.width, 0);
+            context2D.lineTo(i*this.width, this.height*this.yDimension);
+            context2D.stroke();
+        }
+        for (var j = 0; j < this.yDimension+1; j++) {
+            context2D.moveTo(0, j*this.height);
+            context2D.lineTo(i*this.width*this.xDimension, j*this.height);
+            context2D.stroke();
+        }
+        return;
+    }
+
+    var fieldGradient = context2D.createLinearGradient(0, 0, widthOfCell, heightOfCell);
+    fieldGradient.addColorStop(0,objectToDraw.color);
+    var serpentGradient = context2D.createLinearGradient(0, 0, widthOfCell, heightOfCell);
+    serpentGradient.addColorStop(1,objectToDraw.color);
+
+    if (objectToDraw instanceof Fields) {
+        context2D.fillStyle = fieldGradient;
+        for (var i = 0; i < objectToDraw.body.length; i++) {
+            for (var j = 0; j < objectToDraw.body[i].length; j++) {
+                context2D.fillRect(
+                    objectToDraw.body[i][j].x*widthOfCell+xdelta,
+                    objectToDraw.body[i][j].y*heightOfCell+ydelta,
+                    widthOfCell-xdelta,
+                    heightOfCell-ydelta);
+            }
+        }
+    }
+    if (objectToDraw instanceof Serpents) {
+        context2D.fillStyle = serpentGradient;
+        for (var i = 0; i < objectToDraw.body.length; i++) {
+            context2D.fillRect(
+                objectToDraw.body[i].x*widthOfCell+xdelta,
+                objectToDraw.body[i].y*heightOfCell+ydelta,
                 widthOfCell-xdelta,
                 heightOfCell-ydelta);
         }
-    }
-}
-
-canvas.drawfield = function (fieldToDraw) {
-    ctx.fillStyle = emptyGradient;
-    for (var i = 0; i < fieldToDraw.body.length; i++) {
-        for (var j = 0; j < fieldToDraw.body[i].length; j++) {
-            ctx.fillRect(
-                fieldToDraw.body[i][j].x*widthOfCell+xdelta,
-                fieldToDraw.body[i][j].y*heightOfCell+ydelta,
-                widthOfCell-xdelta,
-                heightOfCell-ydelta);
-
+        if (objectToDraw.tail[0]!==undefined) {
+            context2D.fillStyle = fieldGradient;
+            if (objectToDraw.tail[0]!==objectToDraw.body[0]) {
+                context2D.fillRect(
+                    objectToDraw.tail[0].x*widthOfCell+xdelta,
+                    objectToDraw.tail[0].y*heightOfCell+ydelta,
+                    widthOfCell-xdelta,
+                    heightOfCell-ydelta);
+            }
         }
     }
+
 }
