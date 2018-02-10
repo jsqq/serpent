@@ -80,5 +80,4 @@ Canvases.prototype.draw = function(objectToDraw) {
             }
         }
     }
-
 }
