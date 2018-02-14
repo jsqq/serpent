@@ -3,25 +3,25 @@
  */
 'use strict';
 
-var Serpents = function (id, length, leftKey, upKey, rightKey, downKey) {
-    this.id = id;
-    this.length = length;
+var Serpents = function (options) {
+    this.id = options.id;
+    this.length = options.length;
     this.alive = false;
     this.body = [];
     this.tail = [];
-    this.leftKey = leftKey;
-    this.upKey = upKey;
-    this.rightKey = rightKey;
-    this.downKey = downKey;
+    this.leftKey = options.leftKey;
+    this.upKey = options.upKey;
+    this.rightKey = options.rightKey;
+    this.downKey = options.downKey;
     this.moveVector = [];
 }
 
-Serpents.prototype.init = function(field, canvas, xStart, yStart) {
+Serpents.prototype.init = function(options) {
     this.alive = true;
     this.message = "";
-    this.field = field;
-    this.canvas = canvas;
-    this.body.splice(0,this.body.length,field.body[xStart][yStart]);
+    this.field = options.field;
+    this.canvas = options.canvas;
+    this.body.splice(0,this.body.length,this.field.body[options.xStart][options.yStart]);
     this.tail.splice(0,this.tail.length);
     this.moveVector.splice(0,this.moveVector.length);
 }

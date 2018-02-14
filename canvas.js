@@ -2,19 +2,19 @@
  * Created by timoshenko.d on 01.02.2018.
  */
 'use strict';
-var Canvases = function (id, field, style, fieldColor, serpentColor) {
+var Canvases = function (options) {
 
-    this.id = id;
-    this.xDimension = field.xDimension;
-    this.yDimension = field.yDimension;
-    this.width = field.width;
-    this.height = field.height;
-    this.style = style;
-    this.fieldColor = fieldColor;
-    this.serpentColor = serpentColor;
+    this.id = options.id;
+    this.xDimension = options.field.xDimension;
+    this.yDimension = options.field.yDimension;
+    this.width = options.field.width;
+    this.height = options.field.height;
+    this.style = options.style;
+    this.fieldColor = options.fieldColor;
+    this.serpentColor = options.serpentColor;
     var myLabel = document.getElementById('canvases');
     var createdCanvas = document.createElement('canvas');
-    createdCanvas.id = 'myCanvas'+id;
+    createdCanvas.id = 'myCanvas'+options.id;
     createdCanvas.width = this.width*this.xDimension;
     createdCanvas.height = this.height*this.yDimension;
     createdCanvas.style = this.style;
