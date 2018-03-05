@@ -52,7 +52,7 @@ function moveSerpents(){
             if (serpentToMove.moveVector.length > 0) {
                 serpentToMove.move();
                 var currentCanvas = serpentToMove.canvas;
-                currentCanvas.draw(serpentToMove);
+                currentCanvas.drawSerpent(serpentToMove);
             }
         }
     }  else {
@@ -61,10 +61,10 @@ function moveSerpents(){
             var serpentToInit = allSerpents[i];
             var fieldOfSerpent = serpentToInit.field;
             var canvasOfSerpent = serpentToInit.canvas;
-            optionsToInitSerpent = {field: fieldOfSerpent, canvas: canvasOfSerpent, xStart: xStartCell, yStart: yStartCell};
+            var optionsToInitSerpent = {field: fieldOfSerpent, canvas: canvasOfSerpent, xStart: xStartCell, yStart: yStartCell};
             serpentToInit.init(optionsToInitSerpent);
-            canvasOfSerpent.draw(fieldOfSerpent);
-            canvasOfSerpent.draw(serpentToInit);
+            canvasOfSerpent.drawField(fieldOfSerpent);
+            canvasOfSerpent.drawSerpent(serpentToInit);
         }
     }
 }
@@ -85,9 +85,29 @@ mySerpent0.init(optionsToInitSerpent);
 
 allSerpents.push(mySerpent0);
 
-myCanvas0.draw(myCanvas0);
-myCanvas0.draw(myField0);
-myCanvas0.draw(mySerpent0);
+myCanvas0.drawGrid();
+myCanvas0.drawField(myField0);
+myCanvas0.drawSerpent(mySerpent0);
+
+
+optionsToCreateField = {id: 1, xDimension: xCellAmt, yDimension: yCellAmt, width: widthOfCell, height: heightOfCell};
+var myField1 = new Fields(optionsToCreateField);
+
+optionsToCreateCanvas = {id: 1,  field: myField1, style: styleOfCanvas, fieldColor: colorOfField, serpentColor: colorOfSerpent};
+var myCanvas1 = new Canvases(optionsToCreateCanvas);
+
+optionsToCreateSerpent = {id: 1, length: startLengthOfSerpent, leftKey: numpadleft, upKey: numpadup, rightKey: numpadright, downKey: numpaddown};
+var mySerpent1 = new Serpents(optionsToCreateSerpent);
+
+optionsToInitSerpent = {field: myField1, canvas: myCanvas1, xStart: xStartCell, yStart: yStartCell};
+mySerpent1.init(optionsToInitSerpent);
+
+allSerpents.push(mySerpent1);
+
+myCanvas1.drawGrid();
+myCanvas1.drawField(myField1);
+myCanvas1.drawSerpent(mySerpent1);
+
 
 window.addEventListener("keydown", onKeyDown, false); // keypress not work on Chrome
 window.setInterval(moveSerpents, delay);
